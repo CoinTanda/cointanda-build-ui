@@ -14,10 +14,10 @@ export const RNGCard = (props) => {
       value: 'blockhash',
       view: 'Blockhash'
     },
-    chainlink: {
-      value: 'chainlink',
-      view: 'Chainlink'
-    }
+    // chainlink: {
+    //   value: 'chainlink',
+    //   view: 'Chainlink'
+    // }
   }
 
   const formatValue = (key) => rngServices[key].view

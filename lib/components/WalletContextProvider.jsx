@@ -15,11 +15,11 @@ const PORTIS_KEY = process.env.NEXT_JS_PORTIS_API_KEY
 const SELECTED_WALLET_COOKIE_KEY = 'selectedWallet'
 
 // let networkName = 'mainnet'
-let networkName = 'ropsten'
+let networkName = 'rsktestnet'
 const RPC_URL =
   networkName && INFURA_KEY
     ? `https://${networkName}.infura.io/v3/${INFURA_KEY}`
-    : 'http://localhost:8545'
+    : process.env.NEXT_JS_INFURA_KEY ? process.env.NEXT_JS_INFURA_KEY : 'http://localhost:8545'
 
 let cookieOptions = { sameSite: 'strict' }
 if (process.env.NEXT_JS_DOMAIN_NAME) {
@@ -31,52 +31,52 @@ if (process.env.NEXT_JS_DOMAIN_NAME) {
 
 const WALLETS_CONFIG = [
   { walletName: 'metamask', preferred: true },
-  { walletName: 'coinbase', preferred: true },
-  { walletName: 'trust', preferred: true, rpcUrl: RPC_URL },
-  {
-    walletName: 'trezor',
-    appUrl: 'https://app.pooltogether.com',
-    email: 'hello@pooltogether.com',
-    rpcUrl: RPC_URL,
-    preferred: true,
-  },
-  {
-    walletName: 'ledger',
-    rpcUrl: RPC_URL,
-    preferred: true,
-  },
-  {
-    walletName: 'fortmatic',
-    apiKey: FORTMATIC_KEY,
-    preferred: true,
-  },
-  {
-    walletName: 'walletConnect',
-    infuraKey: INFURA_KEY,
-    preferred: true,
-  },
-  {
-    walletName: 'walletLink',
-    rpcUrl: RPC_URL,
-    preferred: true,
-  },
-  {
-    walletName: 'imToken',
-    rpcUrl: RPC_URL,
-    preferred: true,
-  },
-  {
-    walletName: 'huobiwallet',
-    rpcUrl: RPC_URL,
-  },
-  {
-    walletName: 'portis',
-    apiKey: PORTIS_KEY,
-  },
-  { walletName: 'authereum' },
-  { walletName: 'dapper' },
-  { walletName: 'status' },
-  { walletName: 'torus' },
+  // { walletName: 'coinbase', preferred: true },
+  // { walletName: 'trust', preferred: true, rpcUrl: RPC_URL },
+  // {
+  //   walletName: 'trezor',
+  //   appUrl: 'https://app.pooltogether.com',
+  //   email: 'hello@pooltogether.com',
+  //   rpcUrl: RPC_URL,
+  //   preferred: true,
+  // },
+  // {
+  //   walletName: 'ledger',
+  //   rpcUrl: RPC_URL,
+  //   preferred: true,
+  // },
+  // {
+  //   walletName: 'fortmatic',
+  //   apiKey: FORTMATIC_KEY,
+  //   preferred: true,
+  // },
+  // {
+  //   walletName: 'walletConnect',
+  //   infuraKey: INFURA_KEY,
+  //   preferred: true,
+  // },
+  // {
+  //   walletName: 'walletLink',
+  //   rpcUrl: RPC_URL,
+  //   preferred: true,
+  // },
+  // {
+  //   walletName: 'imToken',
+  //   rpcUrl: RPC_URL,
+  //   preferred: true,
+  // },
+  // {
+  //   walletName: 'huobiwallet',
+  //   rpcUrl: RPC_URL,
+  // },
+  // {
+  //   walletName: 'portis',
+  //   apiKey: PORTIS_KEY,
+  // },
+  // { walletName: 'authereum' },
+  // { walletName: 'dapper' },
+  // { walletName: 'status' },
+  // { walletName: 'torus' },
 ]
 
 export const WalletContext = React.createContext()
@@ -150,11 +150,14 @@ const doConnectWallet = async (walletType, setOnboardState) => {
 const connectWallet = (w, setOnboardState) => {
   Cookies.set(SELECTED_WALLET_COOKIE_KEY, w.name, cookieOptions)
 
+  let provider =  new ethers.providers.Web3Provider(w.provider)
+  console.log(provider)
+  
   setOnboardState((previousState) => ({
     ...previousState,
     address: undefined,
     wallet: w,
-    provider: new ethers.providers.Web3Provider(w.provider),
+    provider: provider,
   }))
 }
 

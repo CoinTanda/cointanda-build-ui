@@ -13,10 +13,10 @@ export const PrizePoolDropdown = (props) => {
       value: PRIZE_POOL_TYPE.compound,
       view: <>Yield Prize Pool (Compound Protocol)</>
     },
-    stake: {
-      value: PRIZE_POOL_TYPE.stake,
-      view: <>Stake Prize Pool</>
-    }
+    // stake: {
+    //   value: PRIZE_POOL_TYPE.stake,
+    //   view: <>Stake Prize Pool</>
+    // }
   }
 
   const onValueSet = (newPrizePool) => {

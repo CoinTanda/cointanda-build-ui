@@ -34,7 +34,7 @@ const sendPrizeStrategyTx = async (
   const usersAddress = walletContext.state.address
   const provider = walletContext.state.provider
   const signer = provider.getSigner()
-
+  
   const {
     rngService,
     prizePeriodStartAt,

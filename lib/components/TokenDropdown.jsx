@@ -19,51 +19,69 @@ export const COMPOUND_TOKENS = Object.freeze({
       </>
     ),
   },
-  cUsdc: {
-    value: 'cUSDC',
-    view: (
-      <>
-        <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        USDC
-      </>
-    ),
-  },
-  cUsdt: {
-    value: 'cUSDT',
-    view: (
-      <>
-        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        Tether
-      </>
-    ),
-  },
-  cBat: {
-    value: 'cBAT',
-    view: (
-      <>
-        <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        Basic Attn Token
-      </>
-    ),
-  },
-  cWbtc: {
-    value: 'cWBTC',
-    view: (
-      <>
-        <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        Wrapped Bitcoin
-      </>
-    ),
-  },
-  cZrx: {
-    value: 'cZRX',
+  cRif: {
+    value: 'cRif',
     view: (
       <>
         <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        0x
+        Rif
       </>
     ),
   },
+  cRbtc: {
+    value: 'cRBTC',
+    view: (
+      <>
+        <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        Bitcoin
+      </>
+    ),
+  },
+  // cUsdc: {
+  //   value: 'cUSDC',
+  //   view: (
+  //     <>
+  //       <img src={UsdcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+  //       USDC
+  //     </>
+  //   ),
+  // },
+  // cUsdt: {
+  //   value: 'cUSDT',
+  //   view: (
+  //     <>
+  //       <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+  //       Tether
+  //     </>
+  //   ),
+  // },
+  // cBat: {
+  //   value: 'cBAT',
+  //   view: (
+  //     <>
+  //       <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
+  //       Basic Attn Token
+  //     </>
+  //   ),
+  // },
+  // cWbtc: {
+  //   value: 'cWBTC',
+  //   view: (
+  //     <>
+  //       <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+  //       Wrapped Bitcoin
+  //     </>
+  //   ),
+  // },
+  // cZrx: {
+  //   value: 'cZRX',
+  //   view: (
+  //     <>
+  //       <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
+  //       0x
+  //     </>
+  //   ),
+  // },
 })
 
 export const TokenDropdown = (props) => {
