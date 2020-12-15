@@ -19,7 +19,9 @@ export const TokenDetailsCard = (props) => {
     // PrizePoolInputs
     prizePoolType,
     cToken,
+    iToken,
     updateCToken,
+    updateIToken,
     stakedTokenAddress,
     stakedTokenData,
     setStakedTokenAddress,
@@ -44,6 +46,9 @@ export const TokenDetailsCard = (props) => {
   if (prizePoolType === PRIZE_POOL_TYPE.compound) {
     tokenDetailsDescription =
       'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Compound Protocol to generate yield.'
+  } else if (prizePoolType === PRIZE_POOL_TYPE.sovryn) {
+    tokenDetailsDescription =
+      'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Sovryn Protocol to generate yield.'
   } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
     tokenDetailsDescription =
       'The ERC20 token at the address supplied defines what a user deposits to join the prize pool.'
@@ -59,6 +64,9 @@ export const TokenDetailsCard = (props) => {
           // Compound Prize Pool
           updateCToken={updateCToken}
           cToken={cToken}
+          // Yarn Prize Pool
+          updateIToken={updateIToken}
+          iToken={iToken}
           // Staked Prize Pool
           stakedTokenAddress={stakedTokenAddress}
           stakedTokenData={stakedTokenData}
@@ -136,6 +144,9 @@ export const PrizePoolInputs = (props) => {
     case PRIZE_POOL_TYPE.compound: {
       return <CompoundPrizePoolInputs {...props} />
     }
+    case PRIZE_POOL_TYPE.sovryn: {
+      return <SovrynrizePoolInputs {...props} />
+    }
     case PRIZE_POOL_TYPE.stake: {
       return <StakingPrizePoolInputs {...props} />
     }
@@ -143,9 +154,15 @@ export const PrizePoolInputs = (props) => {
 }
 
 const CompoundPrizePoolInputs = (props) => {
-  const { updateCToken, cToken } = props
+  const { updateCToken, cToken, prizePoolType } = props
 
-  return <TokenDropdown onChange={updateCToken} cToken={cToken} />
+  return <TokenDropdown onChange={updateCToken} cToken={cToken} prizePoolType={prizePoolType}/>
+}
+
+const SovrynrizePoolInputs = (props) => {
+  const { updateIToken, iToken, prizePoolType } = props
+
+  return <TokenDropdown onChange={updateIToken} iToken={iToken} prizePoolType={prizePoolType}/>
 }
 
 const StakingPrizePoolInputs = (props) => {

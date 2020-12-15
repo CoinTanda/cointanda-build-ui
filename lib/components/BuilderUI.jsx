@@ -6,6 +6,8 @@ import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/ab
 import StakePrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/StakePrizePool'
 import StakePrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/StakePrizePoolBuilder'
 import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
+import { SovrynPrizePoolAbi } from 'lib/abis/SorvynPrizePoolAbi'
+import { SovrynPrizePoolBuilderAbi } from 'lib/abis/SorvynPrizePoolBuilderAbi'
 
 import {
   CONTRACT_ADDRESSES,
@@ -34,7 +36,7 @@ const sendPrizeStrategyTx = async (
   const usersAddress = walletContext.state.address
   const provider = walletContext.state.provider
   const signer = provider.getSigner()
-  
+
   const {
     rngService,
     prizePeriodStartAt,
@@ -108,7 +110,9 @@ const sendPrizeStrategyTx = async (
     }))
 
     await newTx.wait()
+    console.log('provider',provider)
     const receipt = await provider.getTransactionReceipt(newTx.hash)
+    console.log('receipt',receipt)
     const txBlockNumber = receipt.blockNumber
 
     setTx((tx) => ({
@@ -194,6 +198,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
   const {
     prizePoolType,
     cTokenAddress,
+    iTokenAddress,
     stakedTokenAddress,
     prizePeriodInDays,
     ticketCreditLimitPercentage
@@ -219,6 +224,21 @@ const getPrizePoolDetails = (params, signer, chainId) => {
         CompoundPrizePoolAbi
       ]
     }
+    case PRIZE_POOL_TYPE.sovryn: {
+      console.log('CompoundPrizePoolBuilderAbi',CompoundPrizePoolBuilderAbi)
+      console.log('SovrynPrizePoolBuilderAbi',SovrynPrizePoolBuilderAbi)
+      const sovrynPrizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['SOVRYN_PRIZE_POOL_BUILDER']
+      console.log('sovrynPrizePoolBuilderAddress',sovrynPrizePoolBuilderAddress)
+      return [
+        new ethers.Contract(sovrynPrizePoolBuilderAddress, SovrynPrizePoolBuilderAbi, signer),
+        {
+          iToken: iTokenAddress,
+          maxExitFeeMantissa: toWei(maxExitFeeMantissa),
+          maxTimelockDuration
+        },
+        SovrynPrizePoolAbi
+      ]
+    }
     case PRIZE_POOL_TYPE.stake: {
       const stakePrizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['STAKE_PRIZE_POOL_BUILDER']
 
@@ -242,15 +262,16 @@ export const BuilderUI = (props) => {
   const [resultingContractAddresses, setResultingContractAddresses] = useState({})
   const [prizePoolType, setPrizePoolType] = useState('')
   const [cToken, setCToken] = useState('')
+  const [iToken, setIToken] = useState('')
   const [stakedTokenAddress, setStakedTokenAddress] = useState('')
   const [stakedTokenData, setStakedTokenData] = useState()
   const [rngService, setRngService] = useState('')
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
   const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
-  const [sponsorshipName, setSponsorshipName] = useState('PT Sponsorship')
+  const [sponsorshipName, setSponsorshipName] = useState('CT Sponsorship')
   const [sponsorshipSymbol, setSponsorshipSymbol] = useState('S')
-  const [ticketName, setTicketName] = useState('PT')
-  const [ticketSymbol, setTicketSymbol] = useState('P')
+  const [ticketName, setTicketName] = useState('CT')
+  const [ticketSymbol, setTicketSymbol] = useState('T')
   const [creditMaturationInDays, setCreditMaturationInDays] = useState('14')
   const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('1')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
@@ -289,24 +310,30 @@ export const BuilderUI = (props) => {
     ]
 
     const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
-
+    const iTokenAddress = CONTRACT_ADDRESSES[chainId][iToken]
+    console.log('prizePoolType',prizePoolType)
+    console.log('iTokenAddress',iTokenAddress)
     switch (prizePoolType) {
       case PRIZE_POOL_TYPE.compound: {
         requiredValues.push(cTokenAddress)
         break
       }
-      case PRIZE_POOL_TYPE.stake: {
-        requiredValues.push(stakedTokenAddress)
-
-        if (!stakedTokenData?.tokenSymbol) {
-          poolToast.error(`Invalid Staking Token Address`)
-          return
-        }
-
+      case PRIZE_POOL_TYPE.sovryn: {
+        requiredValues.push(iTokenAddress)
         break
       }
-    }
+      // case PRIZE_POOL_TYPE.stake: {
+      //   requiredValues.push(stakedTokenAddress)
 
+      //   if (!stakedTokenData?.tokenSymbol) {
+      //     poolToast.error(`Invalid Staking Token Address`)
+      //     return
+      //   }
+
+      //   break
+      // }
+    }
+    console.log('requiredValues', requiredValues)
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(
@@ -324,6 +351,7 @@ export const BuilderUI = (props) => {
       prizePoolType,
       stakedTokenAddress,
       cTokenAddress,
+      iTokenAddress,
       rngService,
       prizePeriodStartAt,
       prizePeriodInDays,
@@ -346,15 +374,16 @@ export const BuilderUI = (props) => {
     e.preventDefault()
     setPrizePoolType('')
     setCToken('')
+    setIToken('')
     setStakedTokenAddress('')
     setStakedTokenData(undefined)
     setPrizePeriodInDays(7)
-    setSponsorshipName('PT Sponsorship')
+    setSponsorshipName('CT Sponsorship')
     setSponsorshipSymbol('S')
-    setTicketName('PT')
-    setTicketSymbol('P')
+    setTicketName('CT')
+    setTicketSymbol('T')
     setCreditMaturationInDays('7')
-    setTicketCreditLimitPercentage('10')
+    setTicketCreditLimitPercentage('1')
     setRngService('')
     setTx({})
     setResultingContractAddresses({})
@@ -383,6 +412,7 @@ export const BuilderUI = (props) => {
                 vars={{
                   prizePoolType,
                   cToken,
+                  iToken,
                   stakedTokenData,
                   stakedTokenAddress,
                   rngService,
@@ -399,6 +429,7 @@ export const BuilderUI = (props) => {
                 stateSetters={{
                   setPrizePoolType,
                   setCToken,
+                  setIToken,
                   setStakedTokenData,
                   setStakedTokenAddress,
                   setRngService,
