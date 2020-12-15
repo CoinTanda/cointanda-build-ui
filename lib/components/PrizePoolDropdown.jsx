@@ -13,6 +13,10 @@ export const PrizePoolDropdown = (props) => {
       value: PRIZE_POOL_TYPE.compound,
       view: <>Yield Prize Pool (Compound Protocol)</>
     },
+    sovryn: {
+      value: PRIZE_POOL_TYPE.sovryn,
+      view: <>Yield Prize Pool (Sovryn Protocol)</>
+    },
     // stake: {
     //   value: PRIZE_POOL_TYPE.stake,
     //   view: <>Stake Prize Pool</>

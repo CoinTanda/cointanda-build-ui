@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 
 import BatSvg from 'assets/images/bat.svg'
@@ -8,6 +9,27 @@ import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
+
+export const SOVRYN_TOKENS = Object.freeze({
+  iDoc: {
+    value: 'iDOC',
+    view: (
+      <>
+        <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        DOC
+      </>
+    ),
+  },
+  iUsdc: {
+    value: 'iUSDT',
+    view: (
+      <>
+        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        USDT
+      </>
+    ),
+  },
+})
 
 export const COMPOUND_TOKENS = Object.freeze({
   cDai: {
@@ -85,15 +107,22 @@ export const COMPOUND_TOKENS = Object.freeze({
 })
 
 export const TokenDropdown = (props) => {
-  const [currentToken, setCurrentToken] = useState(props.cToken)
+
+  var currentToken, setCurrentToken, tokenList;
+  if (props.prizePoolType === PRIZE_POOL_TYPE.compound) {
+    [currentToken, setCurrentToken] = useState(props.cToken)
+    tokenList = COMPOUND_TOKENS
+  } else if (props.prizePoolType === PRIZE_POOL_TYPE.sovryn) {
+    [currentToken, setCurrentToken] = useState(props.iToken)
+    tokenList = SOVRYN_TOKENS
+  }
 
   const onValueSet = (newToken) => {
     setCurrentToken(newToken)
     props.onChange(newToken)
   }
 
-  const formatValue = (key) => COMPOUND_TOKENS[key].view
-
+  const formatValue = (key) => tokenList[key].view
   return (
     <>
       <DropdownInputGroup
@@ -103,7 +132,7 @@ export const TokenDropdown = (props) => {
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentToken}
-        values={COMPOUND_TOKENS}
+        values={tokenList}
       />
     </>
   )

@@ -7,12 +7,15 @@ import { PrizePeriodCard } from 'lib/components/PrizePeriodCard'
 import { RNGCard } from 'lib/components/RNGCard'
 import { PrizePoolTypeCard } from 'lib/components/PrizePoolTypeCard'
 import { FairnessCard } from 'lib/components/FairnessCard'
-import { COMPOUND_TOKENS } from 'lib/components/TokenDropdown'
+import { COMPOUND_TOKENS, SOVRYN_TOKENS } from 'lib/components/TokenDropdown'
 
 const getPrizePoolName = (prizePool) => {
   switch (prizePool) {
     case PRIZE_POOL_TYPE.compound: {
       return 'Compound'
+    }
+    case PRIZE_POOL_TYPE.sovryn: {
+      return 'Sovryn'
     }
     case PRIZE_POOL_TYPE.stake: {
       return 'Stake'
@@ -24,6 +27,9 @@ const getPrizePoolSymbol = (prizePool) => {
   switch (prizePool) {
     case PRIZE_POOL_TYPE.compound: {
       return 'C'
+    }
+    case PRIZE_POOL_TYPE.sovryn: {
+      return 'I'
     }
     case PRIZE_POOL_TYPE.stake: {
       return 'S'
@@ -39,6 +45,7 @@ export const BuilderForm = (props) => {
   const {
     prizePoolType,
     cToken,
+    iToken,
     stakedTokenData,
     stakedTokenAddress,
     rngService,
@@ -54,6 +61,7 @@ export const BuilderForm = (props) => {
   const {
     setPrizePoolType,
     setCToken,
+    setIToken,
     setStakedTokenData,
     setStakedTokenAddress,
     setRngService,
@@ -80,15 +88,15 @@ export const BuilderForm = (props) => {
    */
   const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
     if (!userChangedTicketName) {
-      setTicketName(joinText(['PT', getPrizePoolName(prizePoolType), assetSymbol, 'Ticket']))
+      setTicketName(joinText(['CT', getPrizePoolName(prizePoolType), assetSymbol, 'Ticket']))
     }
     if (!userChangedSponsorshipName) {
       setSponsorshipName(
-        joinText(['PT', getPrizePoolName(prizePoolType), assetSymbol, 'Sponsorship'])
+        joinText(['CT', getPrizePoolName(prizePoolType), assetSymbol, 'Sponsorship'])
       )
     }
     if (!userChangedTicketSymbol) {
-      setTicketSymbol(joinText(['P', getPrizePoolSymbol(prizePoolType), assetSymbol], ''))
+      setTicketSymbol(joinText(['T', getPrizePoolSymbol(prizePoolType), assetSymbol], ''))
     }
     if (!userChangedSponsorshipTicker) {
       setSponsorshipSymbol(joinText(['S', getPrizePoolSymbol(prizePoolType), assetSymbol], ''))
@@ -104,6 +112,10 @@ export const BuilderForm = (props) => {
     switch (prizePoolType) {
       case PRIZE_POOL_TYPE.compound: {
         updateTicketLabels(prizePoolType, cToken)
+        break
+      }
+      case PRIZE_POOL_TYPE.sovryn: {
+        updateTicketLabels(prizePoolType, iToken)
         break
       }
       case PRIZE_POOL_TYPE.stake: {
@@ -124,6 +136,16 @@ export const BuilderForm = (props) => {
     setCToken(cToken)
   }
 
+  /**
+   * Updates the state of the selected iToken
+   * & updates token names
+   * @param {*} iToken new iToken to select
+   */
+  const updateIToken = (iToken) => {
+    updateTicketLabels(PRIZE_POOL_TYPE.sovryn, SOVRYN_TOKENS[iToken].value)
+    setIToken(iToken)
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -141,7 +163,9 @@ export const BuilderForm = (props) => {
             <TokenDetailsCard
               prizePoolType={prizePoolType}
               cToken={cToken}
+              iToken={iToken}
               updateCToken={updateCToken}
+              updateIToken={updateIToken}
               stakedTokenAddress={stakedTokenAddress}
               stakedTokenData={stakedTokenData}
               setStakedTokenAddress={setStakedTokenAddress}
