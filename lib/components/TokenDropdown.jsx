@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 
+import BproPng from 'assets/images/bpro.png'
 import BatSvg from 'assets/images/bat.svg'
 import DocPng from 'assets/images/doc.png'
 import DaiSvg from 'assets/images/dai.svg'
@@ -14,6 +15,15 @@ import ZrxSvg from 'assets/images/zrx.svg'
 import RifPng from 'assets/images/rif.png'
 
 export const SOVRYN_TOKENS = Object.freeze({
+  iBpro: {
+    value: 'iBPro',
+    view: (
+      <>
+        <img src={BproPng} className='inline-block w-6 sm:w-8 mr-3' />
+        BPro
+      </>
+    ),
+  },
   iDoc: {
     value: 'iDOC',
     view: (
@@ -53,15 +63,15 @@ export const COMPOUND_TOKENS = Object.freeze({
       </>
     ),
   },
-  cRbtc: {
-    value: 'cRBTC',
-    view: (
-      <>
-        <img src={RbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        Bitcoin
-      </>
-    ),
-  },
+  // cRbtc: {
+  //   value: 'cRBTC',
+  //   view: (
+  //     <>
+  //       <img src={RbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+  //       Bitcoin
+  //     </>
+  //   ),
+  // },
   // cUsdc: {
   //   value: 'cUSDC',
   //   view: (

@@ -4,10 +4,10 @@ export const Meta = ({ title }) => {
   const defaultTitle = 'CoinTanda - Prize Pool Builder'
   title = title ? `${title} - ${defaultTitle}` : defaultTitle
 
-  const url = `https://builder.pooltogether.com`
+  const url = `https://cointanda-buidler.web.app`
   const description = `Create Prize Pools with this UI tool`
-  const keywords = 'ethereum'
-  const twitterHandle = '@PoolTogether_'
+  const keywords = 'rsk,cointanda,pool,raffle,tanda'
+  const twitterHandle = '@CoinTanda'
 
   return (
     <>
@@ -26,7 +26,7 @@ export const Meta = ({ title }) => {
         <meta name='theme-color' content='#1a083a' />
         <meta name='description' content={description} />
         <meta name='keywords' content={keywords} />
-        <meta name='author' content='PoolTogether LLC' />
+        <meta name='author' content='CoinTanda' />
         <meta name='copyright' content={`Copyright ${new Date().getFullYear()}`} />
 
         <meta property='og:title' content={title} />
