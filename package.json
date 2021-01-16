@@ -5,7 +5,7 @@
   "scripts": {
     "reinstall": "rm -rf node_modules/ && yarn",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "format": "yarn prettier --write .",
     "check-format": "yarn prettier --check ."
@@ -18,7 +18,7 @@
     "@reach/menu-button": "^0.11.2",
     "autoprefixer": "^9.7.6",
     "classnames": "^2.2.6",
-    "ethers": "^4.0.47",
+    "ethers": "^5.0.24",
     "feather-icons-react": "^0.4.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.20",
@@ -35,5 +35,8 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^9.4.4",
     "prettier": "2.2.1"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }

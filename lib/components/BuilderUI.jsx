@@ -26,6 +26,14 @@ import { calculateMaxTimelockDuration } from 'lib/utils/calculateMaxTimelockDura
 const now = () => Math.floor(new Date().getTime() / 1000)
 const toWei = ethers.utils.parseEther
 
+const getLogs = (receipt, filter) => {
+  return receipt.logs.filter(log =>
+    log.address.toLowerCase() == filter.address.toLowerCase() && filter.topics.every((topic) =>
+      topic == null || log.topics.includes(topic)
+      )
+    )
+}
+
 const sendPrizeStrategyTx = async (
   params,
   walletContext,
@@ -35,8 +43,12 @@ const sendPrizeStrategyTx = async (
 ) => {
   const usersAddress = walletContext.state.address
   const provider = walletContext.state.provider
-  const signer = provider.getSigner()
+  const format = provider.formatter.formats
+  format.receipt.root = format.receipt.logsBloom
+  Object.assign(provider.formatter, { format })
 
+  const signer = provider.getSigner()
+  Object.assign(signer.provider.formatter, { format })
   const {
     rngService,
     prizePeriodStartAt,
@@ -110,9 +122,7 @@ const sendPrizeStrategyTx = async (
     }))
 
     await newTx.wait()
-    console.log('provider',provider)
     const receipt = await provider.getTransactionReceipt(newTx.hash)
-    console.log('receipt',receipt)
     const txBlockNumber = receipt.blockNumber
 
     setTx((tx) => ({
@@ -124,42 +134,29 @@ const sendPrizeStrategyTx = async (
 
     // events
     const prizePoolCreatedFilter = prizePoolBuilderContract.filters.PrizePoolCreated(usersAddress)
-    const prizePoolCreatedRawLogs = await provider.getLogs({
-      ...prizePoolCreatedFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
-    })
+    const prizePoolCreatedRawLogs = getLogs(receipt, prizePoolCreatedFilter)
     const prizePoolCreatedEventLog = prizePoolBuilderContract.interface.parseLog(
       prizePoolCreatedRawLogs[0]
     )
-    const prizePool = prizePoolCreatedEventLog.values.prizePool
+    const prizePool = prizePoolCreatedEventLog.args.prizePool
 
     const prizePoolContract = new ethers.Contract(prizePool, prizePoolAbi, signer)
     const prizeStrategySetFilter = prizePoolContract.filters.PrizeStrategySet(null)
-    const prizeStrategySetRawLogs = await provider.getLogs({
-      ...prizeStrategySetFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
-    })
-
+    const prizeStrategySetRawLogs = getLogs(receipt, prizeStrategySetFilter)
     const prizeStrategySetEventLogs = prizePoolContract.interface.parseLog(
       prizeStrategySetRawLogs[0]
     )
-    const prizeStrategy = prizeStrategySetEventLogs.values.prizeStrategy
+    const prizeStrategy = prizeStrategySetEventLogs.args.prizeStrategy
 
     const singleRandomWinnerCreatedFilter = singleRandomWinnerBuilderContract.filters.SingleRandomWinnerCreated(
       prizeStrategy
     )
-    const singleRandomWinnerCreatedRawLogs = await provider.getLogs({
-      ...singleRandomWinnerCreatedFilter,
-      fromBlock: txBlockNumber,
-      toBlock: txBlockNumber
-    })
+    const singleRandomWinnerCreatedRawLogs = getLogs(receipt, singleRandomWinnerCreatedFilter)
     const singleRandomWinnerCreatedEventLog = singleRandomWinnerBuilderContract.interface.parseLog(
       singleRandomWinnerCreatedRawLogs[0]
     )
-    const ticket = singleRandomWinnerCreatedEventLog.values.ticket
-    const sponsorship = singleRandomWinnerCreatedEventLog.values.sponsorship
+    const ticket = singleRandomWinnerCreatedEventLog.args.ticket
+    const sponsorship = singleRandomWinnerCreatedEventLog.args.sponsorship
 
     setResultingContractAddresses({
       prizePool,
@@ -225,10 +222,7 @@ const getPrizePoolDetails = (params, signer, chainId) => {
       ]
     }
     case PRIZE_POOL_TYPE.sovryn: {
-      console.log('CompoundPrizePoolBuilderAbi',CompoundPrizePoolBuilderAbi)
-      console.log('SovrynPrizePoolBuilderAbi',SovrynPrizePoolBuilderAbi)
       const sovrynPrizePoolBuilderAddress = CONTRACT_ADDRESSES[chainId]['SOVRYN_PRIZE_POOL_BUILDER']
-      console.log('sovrynPrizePoolBuilderAddress',sovrynPrizePoolBuilderAddress)
       return [
         new ethers.Contract(sovrynPrizePoolBuilderAddress, SovrynPrizePoolBuilderAbi, signer),
         {
@@ -311,8 +305,6 @@ export const BuilderUI = (props) => {
 
     const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
     const iTokenAddress = CONTRACT_ADDRESSES[chainId][iToken]
-    console.log('prizePoolType',prizePoolType)
-    console.log('iTokenAddress',iTokenAddress)
     switch (prizePoolType) {
       case PRIZE_POOL_TYPE.compound: {
         requiredValues.push(cTokenAddress)
@@ -333,7 +325,6 @@ export const BuilderUI = (props) => {
       //   break
       // }
     }
-    console.log('requiredValues', requiredValues)
     if (!requiredValues.every(Boolean)) {
       poolToast.error(`Please fill out all fields`)
       console.error(

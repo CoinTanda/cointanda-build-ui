@@ -7,8 +7,8 @@ import DiscordLogo from 'assets/images/discord-footer.svg'
 import TwitterFooterLogo from 'assets/images/twitter-footer.svg'
 
 export const Footer = () => {
-  let mailHref = 'mailto:hello@pooltogether.com'
-  let twitterHref = 'https://twitter.com/PoolTogether_'
+  let mailHref = 'mailto:hello@cointanda.com'
+  let twitterHref = 'https://twitter.com/cointanda'
 
   return (
     <footer className='footer w-full text-default text-sm'>
@@ -17,7 +17,7 @@ export const Footer = () => {
           <div className=''>
             <span className='mb-2 sm:mb-0 invisible sm:visible block sm:inline'>
               &copy; {new Date().getFullYear()}{' '}
-              <a href='https://www.pooltogether.com'>PoolTogether Inc.</a>
+              <a href='https://www.cointanda.web.app'>Coin Tanda</a>
             </span>
 
             <a title='faq' className='trans mr-4 sm:ml-8' href='https://www.pooltogether.com/faq'>
@@ -110,6 +110,9 @@ export const Footer = () => {
           </div>
         </div>
       </div>
+      <script src="/__/firebase/8.2.3/firebase-app.js"></script>
+      <script src="/__/firebase/8.2.3/firebase-analytics.js"></script>
+      <script src="/__/firebase/init.js"></script>
     </footer>
   )
 }

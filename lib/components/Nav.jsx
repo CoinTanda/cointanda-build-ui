@@ -2,7 +2,7 @@ import React from 'react'
 
 import { WalletInfo } from 'lib/components/WalletInfo'
 
-import PoolLogo from 'assets/images/pooltogether-white-wordmark.svg'
+import PoolLogo from 'assets/images/CT_logotype.png'
 
 export const Nav = (props) => {
   return (
@@ -12,9 +12,9 @@ export const Nav = (props) => {
           <div className='w-2/5 lg:w-1/5 justify-start h-full flex items-center truncate'>
             <a href='/' title={'Back to home'}>
               <img
-                alt={`PoolTogether Logo`}
+                alt={`Cointanda Logo`}
                 src={PoolLogo}
-                className='mr-auto lg:m-0 w-16 sm:w-16'
+                //className='mr-auto lg:m-0 w-16 sm:w-16'
               />
             </a>
           </div>
