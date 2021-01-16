@@ -11,7 +11,7 @@ export const PrizePoolDropdown = (props) => {
   const prizePools = {
     compound: {
       value: PRIZE_POOL_TYPE.compound,
-      view: <>Yield Prize Pool (Compound Protocol)</>
+      view: <>Yield Prize Pool (rLending Protocol)</>
     },
     sovryn: {
       value: PRIZE_POOL_TYPE.sovryn,

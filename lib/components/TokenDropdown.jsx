@@ -4,18 +4,21 @@ import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { DropdownInputGroup } from 'lib/components/DropdownInputGroup'
 
 import BatSvg from 'assets/images/bat.svg'
+import DocPng from 'assets/images/doc.png'
 import DaiSvg from 'assets/images/dai.svg'
 import UsdcSvg from 'assets/images/usdc.svg'
 import UsdtSvg from 'assets/images/usdt.svg'
 import WbtcSvg from 'assets/images/wbtc.svg'
+import RbtcSvg from 'assets/images/rbtc.svg'
 import ZrxSvg from 'assets/images/zrx.svg'
+import RifPng from 'assets/images/rif.png'
 
 export const SOVRYN_TOKENS = Object.freeze({
   iDoc: {
     value: 'iDOC',
     view: (
       <>
-        <img src={BatSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        <img src={DocPng} className='inline-block w-6 sm:w-8 mr-3' />
         DOC
       </>
     ),
@@ -45,7 +48,7 @@ export const COMPOUND_TOKENS = Object.freeze({
     value: 'cRif',
     view: (
       <>
-        <img src={ZrxSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        <img src={RifPng} className='inline-block w-6 sm:w-8 mr-3' />
         Rif
       </>
     ),
@@ -54,7 +57,7 @@ export const COMPOUND_TOKENS = Object.freeze({
     value: 'cRBTC',
     view: (
       <>
-        <img src={WbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        <img src={RbtcSvg} className='inline-block w-6 sm:w-8 mr-3' />
         Bitcoin
       </>
     ),

@@ -43,7 +43,7 @@ export const BuilderResultPanel = (props) => {
             paddingClasses='px-5 py-2 sm:py-3 lg:py-4'
             onClick={(e) => {
               e.preventDefault()
-              window.location.href = `https://reference-app.pooltogether.com/pools/${networkName}/${prizePool}`
+              window.location.href = `https://cointanda.web.app/tandas/${prizePool}`
             }}
           >
             View pool in Reference App
