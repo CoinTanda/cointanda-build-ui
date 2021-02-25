@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers'
+import loadFirebase  from '../../firebase.config';
 
 import CompoundPrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePool'
 import CompoundPrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/CompoundPrizePoolBuilder'
@@ -8,6 +9,8 @@ import StakePrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/
 import SingleRandomWinnerBuilderAbi from '@pooltogether/pooltogether-contracts/abis/SingleRandomWinnerBuilder'
 import { SovrynPrizePoolAbi } from 'lib/abis/SorvynPrizePoolAbi'
 import { SovrynPrizePoolBuilderAbi } from 'lib/abis/SorvynPrizePoolBuilderAbi'
+import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
+import ERC20Abi from 'lib/abis/ERC20Abi'
 
 import {
   CONTRACT_ADDRESSES,
@@ -59,7 +62,13 @@ const sendPrizeStrategyTx = async (
     sponsorshipSymbol,
     creditMaturationInDays,
     ticketCreditLimitPercentage,
-    externalERC20Awards
+    externalERC20Awards,
+    prizePoolType,
+    cTokenAddress,
+    iTokenAddress,
+    cToken,
+    iToken,
+    tandaType
   } = params
 
   const [prizePoolBuilderContract, prizePoolConfig, prizePoolAbi] = getPrizePoolDetails(
@@ -123,7 +132,6 @@ const sendPrizeStrategyTx = async (
 
     await newTx.wait()
     const receipt = await provider.getTransactionReceipt(newTx.hash)
-    const txBlockNumber = receipt.blockNumber
 
     setTx((tx) => ({
       ...tx,
@@ -157,6 +165,56 @@ const sendPrizeStrategyTx = async (
     )
     const ticket = singleRandomWinnerCreatedEventLog.args.ticket
     const sponsorship = singleRandomWinnerCreatedEventLog.args.sponsorship
+
+    const tokenAddress = (await prizePoolContract.token()).toLowerCase()
+    console.log('tokenAddress', tokenAddress)
+    const tokenContract = new ethers.Contract(tokenAddress, ERC20Abi, signer)
+    const tokenDecimals = await tokenContract.decimals()
+    const tokenSymbol = await tokenContract.symbol()
+    const tokenName = await tokenContract.name()
+    const fire = await loadFirebase()
+    const newData = {
+      exitFeePercentage: ticketCreditLimitPercentage,
+      feeDecayTimeInDays: creditMaturationInDays,
+      governorAddress: (await signer.getAddress()).toLowerCase(),
+      poolAddress: prizePool.toLowerCase(),
+      poolType: prizePoolType,
+      pricePeriodInDays: prizePeriodInDays,
+      prizeStrategyAddress: prizeStrategy.toLowerCase(),
+      rngAddress: rngServiceAddress.toLowerCase(),
+      sponsorship: {
+        address: sponsorship.toLowerCase(),
+        name: sponsorshipName,
+        symbol: sponsorshipSymbol,
+      },
+      tandaType: tandaType,
+      ticket: {
+        address: ticket.toLowerCase(),
+        decimals: 18,
+        name: ticketName,
+        symbol: ticketSymbol,
+      },
+      token: {
+        address: tokenAddress,
+        symbol: tokenSymbol,
+        decimals: tokenDecimals,
+        name: tokenName
+      }
+    }
+    if (prizePoolType == PRIZE_POOL_TYPE.compound) {
+      newData.cToken = {
+        address: cTokenAddress,
+        symbol: cToken,
+      }
+    }
+    if (prizePoolType == PRIZE_POOL_TYPE.sovryn) {
+      newData.iToken = {
+        address: iTokenAddress,
+        symbol: iToken,
+      }
+    }
+    console.error(newData)
+    fire.database().ref(`${chainId}/tandas/${prizePool.toLowerCase()}`).set(newData);
 
     setResultingContractAddresses({
       prizePool,
@@ -263,12 +321,13 @@ export const BuilderUI = (props) => {
   const [prizePeriodStartAt, setPrizePeriodStartAt] = useState('0')
   const [prizePeriodInDays, setPrizePeriodInDays] = useState('7')
   const [sponsorshipName, setSponsorshipName] = useState('CT Sponsorship')
-  const [sponsorshipSymbol, setSponsorshipSymbol] = useState('S')
+  const [sponsorshipSymbol, setSponsorshipSymbol] = useState('ST')
   const [ticketName, setTicketName] = useState('CT')
-  const [ticketSymbol, setTicketSymbol] = useState('T')
+  const [ticketSymbol, setTicketSymbol] = useState('CT')
   const [creditMaturationInDays, setCreditMaturationInDays] = useState('14')
-  const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('1')
+  const [ticketCreditLimitPercentage, setTicketCreditLimitPercentage] = useState('0')
   const [externalERC20Awards, setExternalERC20Awards] = useState([])
+  const [tandaType, setTandaType] = useState('')
   const [tx, setTx] = useState({
     inWallet: false,
     sent: false,
@@ -300,7 +359,8 @@ export const BuilderUI = (props) => {
       ticketName,
       ticketSymbol,
       creditMaturationInDays,
-      ticketCreditLimitPercentage
+      ticketCreditLimitPercentage,
+      tandaType
     ]
 
     const cTokenAddress = CONTRACT_ADDRESSES[chainId][cToken]
@@ -352,7 +412,10 @@ export const BuilderUI = (props) => {
       sponsorshipSymbol,
       creditMaturationInDays,
       ticketCreditLimitPercentage,
-      externalERC20Awards
+      externalERC20Awards,
+      cToken,
+      iToken,
+      tandaType,
     }
 
     sendPrizeStrategyTx(params, walletContext, chainId, setTx, setResultingContractAddresses)
@@ -370,14 +433,15 @@ export const BuilderUI = (props) => {
     setStakedTokenData(undefined)
     setPrizePeriodInDays(7)
     setSponsorshipName('CT Sponsorship')
-    setSponsorshipSymbol('S')
+    setSponsorshipSymbol('ST')
     setTicketName('CT')
-    setTicketSymbol('T')
+    setTicketSymbol('CT')
     setCreditMaturationInDays('7')
     setTicketCreditLimitPercentage('1')
     setRngService('')
     setTx({})
     setResultingContractAddresses({})
+    setTandaType('')
   }
 
   return (
@@ -415,7 +479,8 @@ export const BuilderUI = (props) => {
                   ticketSymbol,
                   creditMaturationInDays,
                   ticketCreditLimitPercentage,
-                  externalERC20Awards
+                  externalERC20Awards,
+                  tandaType,
                 }}
                 stateSetters={{
                   setPrizePoolType,
@@ -432,7 +497,8 @@ export const BuilderUI = (props) => {
                   setTicketSymbol,
                   setCreditMaturationInDays,
                   setTicketCreditLimitPercentage,
-                  setExternalERC20Awards
+                  setExternalERC20Awards,
+                  setTandaType,
                 }}
               />
             </>

@@ -8,7 +8,7 @@ import { PRIZE_POOL_TYPE } from 'lib/constants'
 import { WalletContext } from 'lib/components/WalletContextProvider'
 import { isAddress } from 'lib/utils/isAddress'
 import { fetchTokenChainData } from 'lib/utils/fetchTokenChainData'
-import classnames from 'classnames'
+// import classnames from 'classnames'
 
 function isValidTokenData (data) {
   return data && data.tokenDecimals && data.tokenSymbol && data.tokenName
@@ -185,6 +185,7 @@ const StakingPrizePoolInputs = (props) => {
       if (isAddress(stakedTokenAddress)) {
         const provider = walletContext.state.provider
         const data = await fetchTokenChainData(provider, stakedTokenAddress)
+        console.log('data', data)
         if (!isValidTokenData(data)) {
           setIsError(true)
           setStakedTokenData(undefined)

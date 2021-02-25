@@ -45,12 +45,12 @@ export const SOVRYN_TOKENS = Object.freeze({
 })
 
 export const COMPOUND_TOKENS = Object.freeze({
-  cDai: {
-    value: 'cDAI',
+  cUsdt: {
+    value: 'cUSDT',
     view: (
       <>
-        <img src={DaiSvg} className='inline-block w-6 sm:w-8 mr-3' />
-        Dai
+        <img src={UsdtSvg} className='inline-block w-6 sm:w-8 mr-3' />
+        USDT
       </>
     ),
   },
@@ -59,7 +59,7 @@ export const COMPOUND_TOKENS = Object.freeze({
     view: (
       <>
         <img src={RifPng} className='inline-block w-6 sm:w-8 mr-3' />
-        Rif
+        RIF
       </>
     ),
   },

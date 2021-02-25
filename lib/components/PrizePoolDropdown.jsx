@@ -9,13 +9,13 @@ export const PrizePoolDropdown = (props) => {
   const [currentPrizePool, setCurrentPrizePool] = useState(prizePoolType)
 
   const prizePools = {
-    compound: {
-      value: PRIZE_POOL_TYPE.compound,
-      view: <>Yield Prize Pool (rLending Protocol)</>
-    },
     sovryn: {
       value: PRIZE_POOL_TYPE.sovryn,
       view: <>Yield Prize Pool (Sovryn Protocol)</>
+    },
+    compound: {
+      value: PRIZE_POOL_TYPE.compound,
+      view: <>Yield Prize Pool (rLending Protocol)</>
     },
     // stake: {
     //   value: PRIZE_POOL_TYPE.stake,

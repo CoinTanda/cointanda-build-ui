@@ -6,3 +6,12 @@ export NEXT_JS_FORTMATIC_PRODUCTION_API_KEY=<YOUR_FORTMATIC_PRODUCTION_API_KEY>
 export NEXT_JS_INFURA_KEY=<YOUR_INFURA_KEY>
 
 export NEXT_JS_PORTIS_API_KEY=<YOUR_PORTIS_API_KEY>
+
+export NEXT_JS_FIREBASE_API_KEY= /*your api key*/
+export NEXT_JS_FIREBASE_AUTH_DOMAIN= /*your api key*/
+export NEXT_JS_FIREBASE_DATABASE= /*your database*/
+export NEXT_JS_FIREBASE_PROJECT_ID= /*your project id*/
+export NEXT_JS_FIREBASE_STORAGE_BUCKET= /*your storage bucket*/
+export NEXT_JS_FIREBASE_SENDER_ID= /*your sender id*/
+export NEXT_JS_FIREBASE_APP_ID= /*your app id*/
+export NEXT_JS_FIREBASE_MESURAMENT_ID=/*your mesurament id*/

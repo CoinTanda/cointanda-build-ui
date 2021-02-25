@@ -55,7 +55,8 @@ export const BuilderForm = (props) => {
     ticketName,
     ticketSymbol,
     creditMaturationInDays,
-    ticketCreditLimitPercentage
+    ticketCreditLimitPercentage,
+    tandaType,
   } = vars
 
   const {
@@ -71,7 +72,8 @@ export const BuilderForm = (props) => {
     setTicketName,
     setTicketSymbol,
     setCreditMaturationInDays,
-    setTicketCreditLimitPercentage
+    setTicketCreditLimitPercentage,
+    setTandaType,
   } = stateSetters
 
   const [userChangedCreditMaturation, setUserChangedCreditMaturation] = useState(false)
@@ -88,18 +90,18 @@ export const BuilderForm = (props) => {
    */
   const updateTicketLabels = (prizePoolType, assetSymbol = '') => {
     if (!userChangedTicketName) {
-      setTicketName(joinText(['CT', getPrizePoolName(prizePoolType), assetSymbol, 'Ticket']))
+      setTicketName(joinText(['CT', assetSymbol, 'Ticket']))
     }
     if (!userChangedSponsorshipName) {
       setSponsorshipName(
-        joinText(['CT', getPrizePoolName(prizePoolType), assetSymbol, 'Sponsorship'])
+        joinText(['ST',  assetSymbol, 'Sponsorship'])
       )
     }
     if (!userChangedTicketSymbol) {
-      setTicketSymbol(joinText(['T', getPrizePoolSymbol(prizePoolType), assetSymbol], ''))
+      setTicketSymbol(joinText(['CT-', assetSymbol], ''))
     }
     if (!userChangedSponsorshipTicker) {
-      setSponsorshipSymbol(joinText(['S', getPrizePoolSymbol(prizePoolType), assetSymbol], ''))
+      setSponsorshipSymbol(joinText(['SP-', assetSymbol], ''))
     }
   }
 
@@ -156,6 +158,8 @@ export const BuilderForm = (props) => {
         <PrizePoolTypeCard
           prizePoolType={prizePoolType}
           updatePrizePoolType={updatePrizePoolType}
+          tandaType={tandaType}
+          setTandaType={setTandaType}
         />
 
         {Boolean(prizePoolType) && (

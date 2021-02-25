@@ -5,7 +5,7 @@ import classnames from 'classnames'
 export const Collapse = (props) => {
   const { title, children, className } = props
 
-  const [showContent, setShowContent] = useState(false)
+  const [showContent, setShowContent] = useState(true)
 
   return (
     <>
