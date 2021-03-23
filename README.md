@@ -4,9 +4,9 @@
 
 <br />
 
-## CoinTanda v3 - Prize Pool Builder Frontend
+## CoinTanda v3 - Tanda Builder Frontend
 
-This UI is useful for deploying a new set of Prize Pool contracts using the (currently unreleased) v3 PoolTogether protocol.
+This UI is useful for deploying a new set of Tanda contracts using the (currently unreleased) v3 PoolTogether protocol.
 
 This app is live [here](https://cointanda-buidler.web.app).
 
@@ -38,6 +38,13 @@ To run the local server, run:
 
 ```
 $ yarn dev
+```
+
+To run locally but connected to the testnet:
+
+```
+$ yarn build
+$ yarn start
 ```
 
 #### Adding tokens

@@ -20,10 +20,10 @@ export const IndexContent = (props) => {
     <>
       <div className='flex mt-10 mb-10 sm:mb-20 lg:justify-between'>
         <div>
-          <h1 className='text-accent-1 title text-xl sm:text-6xl'>Tanda Pool Builder v3.0.0</h1>
+          <h1 className='text-accent-1 title text-xl sm:text-6xl'>Tanda Builder v3.0.0</h1>
 
           <p className='text-accent-1 text-base sm:text-2xl max-w-3xl'>
-            This builder creates a new Prize Pool that uses a Single Random Winner prize strategy.
+            This builder creates a new Tanda that uses a Single Random Winner prize strategy.
             This strategy awards the prize periodically to a randomly selected winner.
           </p>
 

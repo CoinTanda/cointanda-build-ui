@@ -152,7 +152,7 @@ export const BuilderForm = (props) => {
     <>
       <form onSubmit={handleSubmit}>
         <div className='font-bold mb-4 sm:mb-6 text-lg sm:text-5xl text-accent-1'>
-          Prize Pool Parameters
+          Tanda Parameters
         </div>
 
         <PrizePoolTypeCard
@@ -212,7 +212,7 @@ export const BuilderForm = (props) => {
                 backgroundColorClasses='bg-green hover:bg-highlight-4 active:bg-highlight-5'
                 color='green'
               >
-                Create New Prize Pool
+                Create New Tanda
               </Button>
             </div>
           </>

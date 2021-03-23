@@ -457,7 +457,7 @@ export const BuilderUI = (props) => {
           {txInFlight ? (
             <>
               <div className='bg-default -mx-8 sm:-mx-0 sm:mx-auto py-4 px-12 sm:p-10 pb-16 rounded-xl sm:w-full lg:w-3/4 text-base sm:text-lg mb-20'>
-                <TxMessage txType='Deploy Prize Pool Contracts' tx={tx} />
+                <TxMessage txType='Deploy Tanda Contracts' tx={tx} />
               </div>
             </>
           ) : (

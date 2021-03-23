@@ -45,13 +45,13 @@ export const TokenDetailsCard = (props) => {
   let tokenDetailsDescription
   if (prizePoolType === PRIZE_POOL_TYPE.compound) {
     tokenDetailsDescription =
-      'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the rLending Protocol to generate yield.'
+      'The chosen deposit token defines what a user deposits to join the Tanda. All deposits are automatically transferred into the rLending Protocol to generate yield.'
   } else if (prizePoolType === PRIZE_POOL_TYPE.sovryn) {
     tokenDetailsDescription =
-      'The chosen deposit token defines what a user deposits to join the prize pool. All deposits are automatically transferred into the Sovryn Protocol to generate yield.'
+      'The chosen deposit token defines what a user deposits to join the Tanda. All deposits are automatically transferred into the Sovryn Protocol to generate yield.'
   } else if (prizePoolType === PRIZE_POOL_TYPE.stake) {
     tokenDetailsDescription =
-      'The ERC20 token at the address supplied defines what a user deposits to join the prize pool.'
+      'The ERC20 token at the address supplied defines what a user deposits to join the Tanda.'
   }
   tokenDetailsDescription +=
     ' When a user deposits, they will receive a token back representing their deposit and chance to win. The name and symbol of this ticket token can be customized in “Advanced Settings”.'

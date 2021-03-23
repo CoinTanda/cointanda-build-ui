@@ -34,13 +34,13 @@ export const RNGCard = (props) => {
   } else if (currentRngService === 'chainlink') {
     rngDetailsDescription = (
       <>
-        This uses ChainLink to generate a random number for your prize pool, it is more secure than
+        This uses ChainLink to generate a random number for your Tanda, it is more secure than
         using the blockhash but <b>requires a payment of 2 LINK tokens for each prize awarded</b>.
       </>
     )
   } else {
     rngDetailsDescription =
-      'Choose the source of randomness the prize pool will use. This can be changed after pool creation. '
+      'Choose the source of randomness the Tanda will use. This can be changed after Tanda creation. '
   }
 
   return (
