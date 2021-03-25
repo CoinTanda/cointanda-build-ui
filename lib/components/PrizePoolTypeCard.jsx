@@ -21,7 +21,7 @@ export const PrizePoolTypeCard = (props) => {
         />
       </InputLabel>
       <InputLabel
-        primary='Pool Type'
+        primary='Tanda Type'
         description='A “Yield Tanda” earns yield on deposited tokens which generate the prize. A “Stake Tanda” does not earn yield on deposited tokens and the prize must be added manually by the Tanda creator.'
       >
         <PrizePoolDropdown

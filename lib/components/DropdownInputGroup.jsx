@@ -60,7 +60,7 @@ export const DropdownInputGroup = (props) => {
 
   textClasses = textClasses
     ? textClasses
-    : classnames('text-xs xs:text-sm sm:text-xl lg:text-2xl trans', {
+    : classnames('text-whitesmoke text-xs xs:text-sm sm:text-xl lg:text-2xl trans', {
         'text-whitesmoke': disabled || !currentValue
       })
 
@@ -76,7 +76,7 @@ export const DropdownInputGroup = (props) => {
         'border-red': isError,
         'border-green-2': isSuccess,
         'border-transparent': !isError && !isSuccess,
-        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-green': !disabled
+        'hover:border-accent-3 focus-within:border-accent-3 focus-within:shadow-blue': !disabled
       })
 
   backgroundClasses = backgroundClasses
