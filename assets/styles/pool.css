@@ -25,9 +25,9 @@
   --color-bg-yellow-2: rgba(255, 147, 3, 0.3);
   --color-bg-blue-1: #4565ff;
   --color-bg-blue-2: rgba(69, 101, 255, 0.4);
-  --color-bg-teal: #093d3d;
-  --color-bg-purple-1: #414c86;
-  --color-bg-purple-2: rgba(101, 115, 192, 0.4);
+  --color-bg-teal: rgb(0, 4, 255);
+  --color-bg-purple-1: #3c56daa6;
+  --color-bg-purple-2: rgba(41, 68, 219, 0.4);
 
   --color-text-accent-1: #292530;
   --color-text-accent-2: #292433;
@@ -37,13 +37,13 @@
   --color-text-secondary: #0d0816;
   --color-text-default: #000000;
   --color-text-default-soft: #1f1838;
-  --color-text-inverse: rgb(34, 31, 44);
+  --color-text-inverse: rgb(118, 116, 124);
   --color-text-match: rgb(0, 0, 0);
   --color-text-black: #111;
   --color-text-highlight-1: #0b473e;
   --color-text-highlight-2: #1a584e;
   --color-text-highlight-3: #09332c;
-  --color-text-whitesmoke: rgba(0, 0, 0, 0.6);
+  --color-text-whitesmoke: rgba(54, 54, 54, 0.6);
   --color-text-red: #e61b1b;
   --color-text-green-1: #063d35;
   --color-text-green-2: #214083;
