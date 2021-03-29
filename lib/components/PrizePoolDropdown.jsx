@@ -11,11 +11,11 @@ export const PrizePoolDropdown = (props) => {
   const prizePools = {
     sovryn: {
       value: PRIZE_POOL_TYPE.sovryn,
-      view: <>Yield Prize Pool (Sovryn Protocol)</>
+      view: <>Yield Tanda (Sovryn Protocol)</>
     },
     compound: {
       value: PRIZE_POOL_TYPE.compound,
-      view: <>Yield Prize Pool (rLending Protocol)</>
+      view: <>Yield Tanda (rLending Protocol)</>
     },
     // stake: {
     //   value: PRIZE_POOL_TYPE.stake,
@@ -34,8 +34,8 @@ export const PrizePoolDropdown = (props) => {
     <>
       <DropdownInputGroup
         id='prize-pool-dropdown'
-        placeHolder='Select the type of prize pool'
-        label={'Pool type'}
+        placeHolder='Select the type of Tanda'
+        label={'Tanda type'}
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentPrizePool}

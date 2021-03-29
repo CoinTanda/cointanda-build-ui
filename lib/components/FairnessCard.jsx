@@ -19,7 +19,7 @@ export const FairnessCard = (props) => {
       <InputLabel
         primary='Fairness'
         secondary='Early exit fee & fee decay time'
-        description='When a user deposits, they are instantly eligible to win. To maintain fairness a time decay early exit is enforced. The settings below are recommended for your prize pool but can be manually adjusted if necessary. These can also be changed after your prize pool has been created. All early exit fees accrue to the prize.'
+        description='When a user deposits, they are instantly eligible to win. To maintain fairness a time decay early exit is enforced. The settings below are recommended for your Tanda but can be manually adjusted if necessary. These can also be changed after your Tanda has been created. All early exit fees accrue to the prize.'
       >
         <div className='flex flex-col sm:flex-row sm:mb-4'>
           <TextInputGroup

@@ -50,7 +50,7 @@
 }
 
 .bn-onboard-custom .bn-onboard-modal-content-header {
-  background: #290b5a !important;
+  background: #9899ff !important;
   height: 70px !important;
   margin: 0 -2rem !important;
   padding: 1rem 2rem !important;
@@ -160,7 +160,7 @@
 }
 
 .bn-onboard-custom.bn-onboard-dark-mode {
-  background: #341762 !important;
+  background: #172262 !important;
 }
 
 .bn-onboard-custom.bn-onboard-dark-mode .bn-onboard-select-wallet-info {

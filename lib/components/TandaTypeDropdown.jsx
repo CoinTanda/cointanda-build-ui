@@ -34,8 +34,8 @@ export const TandaTypeDropdown = (props) => {
     <>
       <DropdownInputGroup
         id='prize-pool-dropdown'
-        placeHolder='Select the type of prize pool'
-        label={'Pool type'}
+        placeHolder='Select the type of Tanda'
+        label={'Tanda type'}
         formatValue={formatValue}
         onValueSet={onValueSet}
         current={currentTandaType}

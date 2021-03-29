@@ -46,7 +46,7 @@ export const BuilderResultPanel = (props) => {
               window.location.href = `https://cointanda.web.app/tandas/${prizePool}`
             }}
           >
-            View pool in Reference App
+            View Tanda in Reference App
           </Button>
         </div>
 
@@ -57,7 +57,7 @@ export const BuilderResultPanel = (props) => {
           }}
         >
           <span className='text-purple-300 block text-xs sm:text-base'>
-            New Prize Pool's contract address:
+            New Tanda's contract address:
           </span>
           <div className='absolute t-0 r-0 pr-3 pt-3 mr-3 sm:mr-0'>
             <CopyToClipboard text={prizePool} onCopy={handleCopy}>
