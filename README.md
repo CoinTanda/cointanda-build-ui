@@ -43,7 +43,6 @@ $ yarn dev
 To run locally but connected to the testnet:
 
 ```
-$ yarn build
 $ yarn start
 ```
 
