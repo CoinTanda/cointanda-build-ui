@@ -138,7 +138,7 @@ a {
 }
 
 a:hover {
-  @apply text-cyan-400 border-purple-700;
+  @apply text-orange-600 border-purple-700;
 }
 
 a[disabled],
